@@ -33,6 +33,7 @@ export interface IPeopleListState extends IPeopleListProps {
 export interface IPeopleListItemProps {
     name: string;
     id: number;
+    gender: string;
     onClick: any;
     selected: boolean
 }
