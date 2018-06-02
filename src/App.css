@@ -1,0 +1,29 @@
+body {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+main {
+    background: #f4f4f4;
+}
+
+.patient-list {
+    margin-right: 0 !important;
+}
+
+.patient-details {
+    background: white;
+    margin-left: 0 !important;
+    position: relative;
+}
+
+.patient-details .divider {
+    height: 100%;
+    position: absolute;
+    border: 1px dotted #ccc;
+    left: calc(50% - 4px);
+    top: 0;
+}
+
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list {
+    padding: 0;
+}
