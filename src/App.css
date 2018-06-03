@@ -24,6 +24,41 @@ main {
     top: 0;
 }
 
+.react-datepicker {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    width: 100%;
+}
+
+.react-datepicker__month, .react-datepicker__time {
+    font-size: 14px;
+}
+
+.react-datepicker__day-names {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.react-datepicker__month-container {
+    width: 60% !important;
+}
+
+.react-datepicker__time-container {
+    width: 40% !important;
+}
+
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box {
+    width: 100%;
+}
+
 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list {
     padding: 0;
+}
+.react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name{
+    margin: 0.5rem;
+}
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item{
+    font-size: 14px;
+}
+.react-datepicker__navigation--next--with-time:not(.react-datepicker__navigation--next--with-today-button){
+    right: 20px;
 }
