@@ -1,3 +1,6 @@
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
+import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
 import { IPeopleListProps, IPeopleListState } from '../../index';
 import Person from './Person';
@@ -43,6 +46,11 @@ class PeopleListComponent extends React.Component<IPeopleListProps, IPeopleListS
                                    name={peer.firstName + ', ' + peer.lastName}
                                    selected={this.isSelected(peer.id)}/>
                 })}
+                <Tooltip id="tooltip-left" title="Add Patient" placement="left">
+                    <Button variant="fab" color="primary" aria-label="add" style={{position: 'absolute', right: 10, bottom: 0}}>
+                        <AddIcon/>
+                    </Button>
+                </Tooltip>
             </div>
         );
     }

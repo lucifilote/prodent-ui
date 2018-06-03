@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { IPerson } from '../index';
 import './App.css';
 import Appointment from './components/Appointment';
+import ConsultationsList from './components/ConsultationsList';
 import Patient from './components/Patient';
 import PeopleListComponent from './components/PeopleList';
 import withRoot from './withRoot';
@@ -54,7 +55,7 @@ class App extends React.Component<Props & WithStyles<'root'>, IAppState> {
     }
 
     public componentDidMount() {
-        fetch('/patient/patients',)
+        fetch('/patients',)
             .then((response) => {
                 return response.json();
             })
@@ -83,6 +84,19 @@ class App extends React.Component<Props & WithStyles<'root'>, IAppState> {
         });
     };
 
+    public refreshSelectedPatient = () => {
+        return fetch(`/patients/ ${this.state.selectedPatient.id}`)
+            .then((response) => {
+                return response.json();
+            })
+            .then((person: IPerson) => {
+                this.setState({
+                    ...this.state,
+                    selectedPatient: person
+                });
+            })
+    };
+
     public render() {
         const {classes} = this.props;
         return (
@@ -95,7 +109,7 @@ class App extends React.Component<Props & WithStyles<'root'>, IAppState> {
                     </Toolbar>
                 </AppBar>
                 <Grid container={true} spacing={0}>
-                    <Grid item={true} xs={2}>
+                    <Grid item={true} xs={2} style={{position: 'relative'}}>
                         <PeopleListComponent people={this.state.people}
                                              onPersonChange={this.handlePeopleListChange}/>
                     </Grid>
@@ -117,6 +131,19 @@ class App extends React.Component<Props & WithStyles<'root'>, IAppState> {
                                                      insuranceCode={this.state.selectedPatient.insuranceCode}/>
                                         </Grid>
                                     </Grid>
+                                    <Grid container={true} spacing={0} style={{padding: 15}}>
+                                        <Grid item={true} xs={12}>
+                                            <Typography variant="display1" gutterBottom={true}>
+                                                Patient Consultations
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item={true} xs={12}>
+                                            <ConsultationsList
+                                                consultations={this.state.selectedPatient.consultations}
+                                                patientId={this.state.selectedPatient.id}
+                                                onConsultationChange={this.refreshSelectedPatient}/>
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
                                 <Grid item={true} xs={6}>
                                     <Grid container={true} spacing={0} style={{padding: 15}}>
@@ -126,7 +153,8 @@ class App extends React.Component<Props & WithStyles<'root'>, IAppState> {
                                             </Typography>
                                         </Grid>
                                         <Grid item={true} xs={12}>
-                                            <Appointment/>
+                                            <Appointment patientId={this.state.selectedPatient.id}
+                                                         onAppointmentSave={this.refreshSelectedPatient}/>
                                         </Grid>
                                     </Grid>
                                 </Grid>
