@@ -97,10 +97,14 @@ class Appointment extends React.Component<IAppointmentProps & IProps, IAppointme
     }
 
     private handleChange = (name: string) => (event: any) => {
+        let keepStateFormError = true;
+        if (name === 'medicalService') {
+            keepStateFormError = false;
+        }
         this.setState({
             ...this.state,
             [name]: event.target.value,
-            formError: !(name === 'medicalService')
+            formError: keepStateFormError ? this.state.formError : false
         });
     };
 
