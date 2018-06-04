@@ -1,4 +1,4 @@
-import { FormControl, Grid, TextField, withStyles } from '@material-ui/core';
+import { Grid, TextField, withStyles } from '@material-ui/core';
 import * as React from 'react';
 import { IAddress } from '../../index';
 
@@ -59,7 +59,7 @@ class Patient extends React.Component<IPatientProps & IProps, IPatientProps> {
     public render() {
         const {classes} = this.props;
         return (
-            <FormControl onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit}>
                 <Grid item={true} xs={12}>
                     <Grid container={true} spacing={8}>
                         <Grid item={true} xs={6}>
@@ -125,7 +125,7 @@ class Patient extends React.Component<IPatientProps & IProps, IPatientProps> {
                         </Grid>
                     </Grid>
                 </Grid>
-            </FormControl>
+            </form>
 
         );
     }
