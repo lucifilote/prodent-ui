@@ -122,7 +122,7 @@ class App extends React.Component<Props & WithStyles<'root'>, IAppState> {
                     <Grid item={true} xs={10}>
                         <Paper elevation={4}>
                             <Grid container={true} spacing={0} style={{padding: 25}}>
-                                <Grid item={true} xs={8}>
+                                <Grid item={true} xs={7}>
                                     <Grid container={true} spacing={0} style={{padding: 15}}>
                                         <Grid item={true} xs={12}>
                                             <Typography variant="display1" gutterBottom={true}>
@@ -153,7 +153,7 @@ class App extends React.Component<Props & WithStyles<'root'>, IAppState> {
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                                <Grid item={true} xs={4}>
+                                <Grid item={true} xs={5}>
                                     <Grid container={true} spacing={0} style={{padding: 15}}>
                                         <Grid item={true} xs={12}>
                                             <Typography variant="display1" gutterBottom={true}>

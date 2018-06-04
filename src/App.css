@@ -30,11 +30,11 @@ main {
 }
 
 .react-datepicker__month, .react-datepicker__time {
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .react-datepicker__day-names {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
 }
 
@@ -54,10 +54,10 @@ main {
     padding: 0;
 }
 .react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name{
-    margin: 0.5rem;
+    margin: 0.3rem;
 }
 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item{
-    font-size: 12px;
+    font-size: 13px;
 }
 .react-datepicker__navigation--next--with-time:not(.react-datepicker__navigation--next--with-today-button){
     right: 20px;
