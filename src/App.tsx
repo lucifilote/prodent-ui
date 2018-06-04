@@ -66,7 +66,10 @@ class App extends React.Component<Props & WithStyles<'root'>, IAppState> {
                             person[key] = undefined;
                         }
                     });
-                    return person;
+                    return {
+                        ...person,
+                        consultations: person.consultations.sort(((a, b) => new Date(b.dateOfConsultation).getTime() - new Date(a.dateOfConsultation).getTime())).concat()
+                    };
                 });
                 this.setState({
                     people,
@@ -92,7 +95,10 @@ class App extends React.Component<Props & WithStyles<'root'>, IAppState> {
             .then((person: IPerson) => {
                 this.setState({
                     ...this.state,
-                    selectedPatient: person
+                    selectedPatient: {
+                        ...person,
+                        consultations: person.consultations.sort(((a, b) => new Date(b.dateOfConsultation).getTime() - new Date(a.dateOfConsultation).getTime())).concat()
+                    }
                 });
             })
     };
@@ -116,7 +122,7 @@ class App extends React.Component<Props & WithStyles<'root'>, IAppState> {
                     <Grid item={true} xs={10}>
                         <Paper elevation={4}>
                             <Grid container={true} spacing={0} style={{padding: 25}}>
-                                <Grid item={true} xs={6}>
+                                <Grid item={true} xs={8}>
                                     <Grid container={true} spacing={0} style={{padding: 15}}>
                                         <Grid item={true} xs={12}>
                                             <Typography variant="display1" gutterBottom={true}>
@@ -138,14 +144,16 @@ class App extends React.Component<Props & WithStyles<'root'>, IAppState> {
                                             </Typography>
                                         </Grid>
                                         <Grid item={true} xs={12}>
-                                            <ConsultationsList
-                                                consultations={this.state.selectedPatient.consultations}
-                                                patientId={this.state.selectedPatient.id}
-                                                onConsultationChange={this.refreshSelectedPatient}/>
+                                            <div style={{minHeight: '400px'}}>
+                                                <ConsultationsList
+                                                    consultations={this.state.selectedPatient.consultations}
+                                                    patientId={this.state.selectedPatient.id}
+                                                    onConsultationChange={this.refreshSelectedPatient}/>
+                                            </div>
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                                <Grid item={true} xs={6}>
+                                <Grid item={true} xs={4}>
                                     <Grid container={true} spacing={0} style={{padding: 15}}>
                                         <Grid item={true} xs={12}>
                                             <Typography variant="display1" gutterBottom={true}>
