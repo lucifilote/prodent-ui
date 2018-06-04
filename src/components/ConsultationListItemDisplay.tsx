@@ -1,7 +1,7 @@
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import Edit from '@material-ui/icons/Edit';
 import LocalHospital from '@material-ui/icons/LocalHospital';
 import Save from '@material-ui/icons/Save';
@@ -35,17 +35,27 @@ class ConsultationListItemDisplay extends React.Component<IConsultationListItemD
     public render() {
         return (
             <div style={{display: 'flex', flex: 1}}>
-                <div className={'mdl-list__item-primary-content'}>
-                    <span style={{display: 'flex'}} hidden={this.state.isInEditMode}>
-                         <Avatar>
-                        <LocalHospital/>
-                    </Avatar>
-                    <ListItemText
-                        primary={this.props.primary}
-                        secondary={this.props.secondary}/>
-                    </span>
+                <div className={'consultations-list__item-primary-content'}>
+                    <div style={{display: 'flex'}} hidden={this.state.isInEditMode}>
+                        <Avatar style={{alignSelf: 'center'}}>
+                            <LocalHospital/>
+                        </Avatar>
+                        <div className={'consultations-list__item-text'}>
+                            <Typography variant="subheading" gutterBottom={true}
+                                        className={'consultations-list__item-text--primary'}>
+                                {this.props.primary}
+                            </Typography>
+                            <Typography variant="subheading" gutterBottom={true}
+                                        className={this.props.secondary ? 'consultations-list__item-text--secondary' : 'consultations-list__item-text--secondary consultations-list__item-text--secondary-empty'}>
+                                {this.props.secondary? this.props.secondary : 'No description...'}
+                            </Typography>
+                        </div>
+                    </div>
 
-                    <span style={{flex: '1'}} hidden={!this.state.isInEditMode}>
+                    <div style={{display: 'flex', flex: '1'}} hidden={!this.state.isInEditMode}>
+                        <Avatar style={{alignSelf: 'center'}}>
+                            <LocalHospital/>
+                        </Avatar>
                         <TextField
                             id="description"
                             label="Description"
@@ -55,10 +65,11 @@ class ConsultationListItemDisplay extends React.Component<IConsultationListItemD
                             onChange={this.handleDescriptionChange}
                             margin="normal"
                             fullWidth={true}
+                            style={{marginLeft: 15}}
                         />
-                    </span>
+                    </div>
                 </div>
-                <div className={'mdl-list__item-secondary-content'} style={{justifyContent: 'center'}}>
+                <div className={'consultations-list__item-secondary-content'}>
                     <IconButton aria-label="Edit" hidden={this.props.disableEdit} onClick={this.handleEdit}>
                         <Edit color="primary"/>
                     </IconButton>
@@ -82,9 +93,9 @@ class ConsultationListItemDisplay extends React.Component<IConsultationListItemD
     private handleSave = () => {
         this.props.onSaveClick(this.state.description, this.props.index)
             .then((response) => {
-               this.setState({
-                   isInEditMode: false
-               })
+                this.setState({
+                    isInEditMode: false
+                })
             });
     };
 

@@ -53,9 +53,9 @@ class ConsultationsList extends React.Component<IConsultationsListProps, IConsul
                         editMode={this.state.isInEditMode}
                         consultations={this.state.consultations}
                         width={width}
-                        height={230}
+                        height={400}
                         rowCount={this.state.consultations.length}
-                        rowHeight={55}
+                        rowHeight={100}
                         rowRenderer={this.rowRenderer}
                         onScroll={this.onListScroll}
                         className={this.state.isInEditMode ? 'mdl-list consultations-list consultations-list__edit-mode' : 'mdl-list consultations-list'}
@@ -93,9 +93,9 @@ class ConsultationsList extends React.Component<IConsultationsListProps, IConsul
             <div
                 key={listRendererProps.key}
                 style={listRendererProps.style}
-                className={'mdl-list__item'}>
+                className={'consultations-list__item'}>
                 <ConsultationListItemDisplay index={listRendererProps.index}
-                                             primary={`${moment(this.state.consultations[listRendererProps.index].dateOfConsultation).format('MMMM Do YYYY, h:mm:ss a')} - ${medicalServices[this.state.consultations[listRendererProps.index].medicalService] || ''}`}
+                                             primary={`${moment(this.state.consultations[listRendererProps.index].dateOfConsultation).format('MMMM Do YYYY, HH:mm')} - ${medicalServices[this.state.consultations[listRendererProps.index].medicalService] || ''}`}
                                              secondary={this.state.consultations[listRendererProps.index].description}
                                              onEditClick={this.onConsultationEdit}
                                              onSaveClick={this.onConsultationSave}

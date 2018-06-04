@@ -2,9 +2,40 @@
     outline: none;
 }
 
-.consultations-list .mdl-list__item {
-    padding-left: 0;
-    border-bottom: 1px #ccc dotted;
+.consultations-list__item {
+    align-items: center;
+    border-bottom: 1px dotted #ccc;
+    display: flex;
+}
+
+.consultations-list__item-primary-content {
+    display: flex;
+    flex: 1;
+}
+
+.consultations-list__item-secondary-content {
+    justify-content: center;
+    text-align: center;
+    align-self: center;
+    width: 7%;
+}
+
+.consultations-list__item input{
+    font-size: 16px;
+}
+
+.consultations-list__item-primary-content .consultations-list__item-text {
+    margin-left: 15px;
+}
+
+.consultations-list__item-primary-content .consultations-list__item-text--secondary {
+    font-size: 1.25rem;
+    line-height: 1.75em;
+    margin-bottom: 0;
+}
+
+.consultations-list__item-text--secondary.consultations-list__item-text--secondary-empty {
+    color: #ccc;
 }
 
 .consultations-list::-webkit-scrollbar-track {
