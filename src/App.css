@@ -62,3 +62,12 @@ main {
 .react-datepicker__navigation--next--with-time:not(.react-datepicker__navigation--next--with-today-button){
     right: 20px;
 }
+.no-patients{
+    position: absolute;
+    z-index: 2;
+    background: #ffffff;
+    width: calc(100% - 360px);
+    height: calc(100% - 200px);
+    display: flex;
+    justify-content: center;
+}

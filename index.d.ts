@@ -1,5 +1,3 @@
-import App from './src/App';
-
 export interface IAddress {
     countryName: string;
     county: string;
@@ -23,11 +21,14 @@ export interface IPerson {
 
 export interface IPeopleListProps {
     people: IPerson[];
+    onPeopleFiltering: (people: IPerson[]) => void;
     onPersonChange: (selectedPerson: IPerson) => void;
+    onPersonAdded: (newPatient: any) => void;
 }
 
 export interface IPeopleListState extends IPeopleListProps {
     selected: number;
+    addDialogOpen: boolean;
 }
 
 export interface IPeopleListItemProps {

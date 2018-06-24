@@ -39,7 +39,6 @@ class ConsultationsList extends React.Component<IConsultationsListProps, IConsul
     public onConsultationEdit = () => {
         this.setState((prevState, props) => {
             return {
-                ...this.state,
                 isInEditMode: true
             }
         });
@@ -71,7 +70,7 @@ class ConsultationsList extends React.Component<IConsultationsListProps, IConsul
     };
 
     private onConsultationSave = (newDescription: string, index: number) => {
-        const consultation = this.state.consultations[index];
+        const consultation = Object.assign({}, this.state.consultations[index]);
         consultation.description = newDescription;
 
         return putData(`/patients/${this.state.patientId}/consultation`, {...consultation})
@@ -91,7 +90,7 @@ class ConsultationsList extends React.Component<IConsultationsListProps, IConsul
     private rowRenderer: ListRowRenderer = (listRendererProps: ListRowProps) => {
         return (
             <div
-                key={listRendererProps.key}
+                key={listRendererProps.index}
                 style={listRendererProps.style}
                 className={'consultations-list__item'}>
                 <ConsultationListItemDisplay index={listRendererProps.index}

@@ -1,4 +1,5 @@
 import { AppBar, Grid, Paper, Typography } from '@material-ui/core';
+import Snackbar from '@material-ui/core/es/Snackbar';
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import Toolbar from '@material-ui/core/Toolbar';
 import * as React from 'react';
@@ -8,14 +9,17 @@ import './App.css';
 import Appointment from './components/Appointment';
 import ConsultationsList from './components/ConsultationsList';
 import Patient from './components/Patient';
-import PeopleListComponent from './components/PeopleList';
+import PeopleListComponent from './components/PatientList';
+import { MySnackbarContentWrapper } from './components/Snackbar';
+import { postData } from './util';
 import withRoot from './withRoot';
-
 
 export interface IAppState {
     medicalService: string,
+    noPeople: boolean;
     people: IPerson[];
     selectedPatient: IPerson;
+    showSnackbar: boolean;
 }
 
 interface IClasses {
@@ -32,6 +36,7 @@ class App extends React.Component<Props & WithStyles<'root'>, IAppState> {
         super(props);
         this.state = {
             medicalService: '',
+            noPeople: false,
             people: [],
             selectedPatient: {
                 address: {
@@ -50,7 +55,8 @@ class App extends React.Component<Props & WithStyles<'root'>, IAppState> {
                 id: -1,
                 insuranceCode: '',
                 lastName: ''
-            }
+            },
+            showSnackbar: false
         }
     }
 
@@ -60,29 +66,22 @@ class App extends React.Component<Props & WithStyles<'root'>, IAppState> {
                 return response.json();
             })
             .then((people: IPerson[]) => {
-                people = people.filter((person) => person.insuranceCode != null).map((person) => {
-                    Object.keys(person).forEach((key) => {
-                        if (person[key] == null) {
-                            person[key] = undefined;
-                        }
-                    });
-                    return {
-                        ...person,
-                        consultations: person.consultations.sort(((a, b) => new Date(b.dateOfConsultation).getTime() - new Date(a.dateOfConsultation).getTime())).concat()
-                    };
-                });
+                people = this.filterPatientsWithNull(people);
                 this.setState({
+                    noPeople: false,
                     people,
                     selectedPatient: people[0]
                 });
             });
     }
 
-    public handlePeopleListChange = (selectedPerson: IPerson) => {
+    public onPeopleListChange = (selectedPerson: IPerson) => {
         this.setState(() => {
             return {
-                ...this.state,
-                selectedPatient: selectedPerson
+                selectedPatient: {
+                    ...selectedPerson,
+                    consultations: selectedPerson.consultations ? selectedPerson.consultations : []
+                }
             }
         });
     };
@@ -97,10 +96,45 @@ class App extends React.Component<Props & WithStyles<'root'>, IAppState> {
                     ...this.state,
                     selectedPatient: {
                         ...person,
-                        consultations: person.consultations.sort(((a, b) => new Date(b.dateOfConsultation).getTime() - new Date(a.dateOfConsultation).getTime())).concat()
-                    }
+                        consultations: this.sortPersonConsultations(person)
+                    },
+                    showSnackbar: true
                 });
             })
+    };
+
+    public onPersonAdded = (newPatient: any) => {
+        postData('/patients', {...newPatient})
+            .then((response) => {
+                return response.json();
+            })
+            .then((response) => {
+                this.setState({
+                    people: this.state.people.concat([response]),
+                    showSnackbar: true
+                });
+            })
+    };
+
+    public onPeopleFiltered = (people: IPerson[]) => {
+        if (people.length <= 0) {
+            this.setState({
+                noPeople: true,
+                people
+            })
+        } else {
+            this.setState({
+                noPeople: false,
+                people,
+                selectedPatient: people[0]
+            });
+        }
+    };
+
+    public handleCloseSnackbar = () => {
+        this.setState({
+            showSnackbar: false
+        })
     };
 
     public render() {
@@ -117,11 +151,16 @@ class App extends React.Component<Props & WithStyles<'root'>, IAppState> {
                 <Grid container={true} spacing={0}>
                     <Grid item={true} xs={2} style={{position: 'relative'}}>
                         <PeopleListComponent people={this.state.people}
-                                             onPersonChange={this.handlePeopleListChange}/>
+                                             onPeopleFiltering={this.onPeopleFiltered}
+                                             onPersonChange={this.onPeopleListChange}
+                                             onPersonAdded={this.onPersonAdded}/>
                     </Grid>
                     <Grid item={true} xs={10}>
                         <Paper elevation={4}>
                             <Grid container={true} spacing={0} style={{padding: 25}}>
+                                <div className={!this.state.noPeople ? 'no-patients hidden' : 'no-patients'}>
+                                    <h2>No patient selected...</h2>
+                                </div>
                                 <Grid item={true} xs={7}>
                                     <Grid container={true} spacing={0} style={{padding: 15}}>
                                         <Grid item={true} xs={12}>
@@ -170,8 +209,40 @@ class App extends React.Component<Props & WithStyles<'root'>, IAppState> {
                         </Paper>
                     </Grid>
                 </Grid>
+                <Snackbar
+                    anchorOrigin={{
+                        horizontal: 'right',
+                        vertical: 'bottom',
+                    }}
+                    open={this.state.showSnackbar}
+                    autoHideDuration={4000}
+                    onClose={this.handleCloseSnackbar}>
+                    <MySnackbarContentWrapper
+                        onClose={this.handleCloseSnackbar}
+                        variant="success"
+                        message="Successfully saved!"
+                    />
+                </Snackbar>
             </div>
         );
+    }
+
+    private filterPatientsWithNull(people: IPerson[]) {
+        return people.filter((person) => person.insuranceCode != null).map((person) => {
+            Object.keys(person).forEach((key) => {
+                if (person[key] == null) {
+                    person[key] = undefined;
+                }
+            });
+            return {
+                ...person,
+                consultations: this.sortPersonConsultations(person)
+            };
+        });
+    }
+
+    private sortPersonConsultations(person: IPerson) {
+        return person.consultations.sort(((a, b) => new Date(b.dateOfConsultation).getTime() - new Date(a.dateOfConsultation).getTime())).concat()
     }
 }
 
