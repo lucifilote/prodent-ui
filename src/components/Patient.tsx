@@ -28,8 +28,8 @@ class Patient extends React.Component<IPatientProps & IProps, IPatientProps> {
         return (
             <form>
                 <Grid item={true} xs={12}>
-                    <Grid container={true} spacing={8}>
-                        <Grid item={true} xs={6}>
+                    <Grid container={true} spacing={8} className={'black-text'}>
+                        <Grid item={true} xs={6} >
                             <TextField
                                 id="firstName"
                                 label="First Name"

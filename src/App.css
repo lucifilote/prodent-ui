@@ -71,3 +71,6 @@ main {
     display: flex;
     justify-content: center;
 }
+.black-text input, .black-text label, .black-text textarea{
+    color: black !important;
+}
