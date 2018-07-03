@@ -92,7 +92,7 @@ class Patient extends React.Component<IPatientProps & IProps, IPatientProps> {
         if (this.props.address) {
             const keys = Object.keys(this.props.address);
             if (keys.length > 0) {
-                return keys.map(key => this.props.address![key]).join(', ');
+                return keys.map(key => this.props.address![key]).filter((value => !!value)).join(', ');
             }
         }
         return '';
